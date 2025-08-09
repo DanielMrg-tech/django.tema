@@ -1,0 +1,24 @@
+{% extends "books.html" %}
+
+
+{% block title %} My Receipe Home{% endblock %}
+
+{% block content %}
+
+  <p>Hello, {{ username }} from out html page</p>
+
+  {% if logged_in %}
+    <ul>
+      {% for fruit in fruits %}
+      <li>{{ fruit }}</li>
+
+      {% endfor %}
+
+    </ul>
+
+  {% endif %}
+
+
+<p>Today`s time is : {{ current_time }}</p>
+
+{% endblock %}
