@@ -15,5 +15,6 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('about/', views.about, name='about'),
     path('create_book/', views.create_book, name='create_book'),
-    path('api/', include(router.urls))
+    path('api/', include(router.urls)),
+    path('books/', views.books_view, name='books'),
 ]

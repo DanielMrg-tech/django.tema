@@ -1,0 +1,17 @@
+{% extends "books.html" %}
+
+
+{% block title %}My books{% endblock %}
+
+{% block content %}
+
+  {% if logged_in %}
+    <ul>
+      {% for book in books2 %}
+      <li>{{ book }}</li>
+      {% endfor %}
+    </ul>
+
+  {% endif %}
+
+{% endblock %}

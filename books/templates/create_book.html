@@ -1,0 +1,14 @@
+{% extends "books.html" %}
+
+
+{% block title %} Create book {% endblock %}
+
+{% block content %}
+    <h1>Create a new book</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+
+{% endblock %}
