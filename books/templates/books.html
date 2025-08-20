@@ -2,23 +2,42 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}{% endblock %} </title>
+    <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
 </head>
 <body>
-    <h1>My receipes</h1>
-
+    <h1>My Recipes Header</h1>
 
     {% block content %}{% endblock %}
 
     <nav>
         <div>
-            <button>Hello</button>
-            <a href="{% url 'home' %}">Home</a>
-            <a href="{% url 'hello' %}">Hello</a>
-            <a href="{% url 'about' %}">About</a>
+            <a href="{% url 'home' %}" >Home</a>
+            <a href="{% url 'hello' %}" >Hello</a>
+            <a href="{% url 'about' %}" >About</a>
+
+            {% if user.is_authenticated %}
+            <a href="{% url 'books'%}">Add Book</a>
+                <form action="{% url 'logout' %}" method="post" style="display: inline!important;" >
+                    {% csrf_token %}
+                    <button type="submit" style="
+                          background: none!important;
+                          border: none;
+                          padding: 0!important;
+                          /*optional*/
+                          font-family: arial, sans-serif;
+                          /*input has OS specific font-family*/
+                          color: #069;
+                          text-decoration: underline;
+                          cursor: pointer;
+                        ">Logout</button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}" >Login</a>
+                <a href="{% url 'register' %}" >Register</a>
+            {% endif %}
         </div>
     </nav>
-    <p>Website footer</p>
+    <p>Website Footer</p>
 </body>
 </html>

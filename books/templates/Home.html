@@ -5,9 +5,9 @@
 
 {% block content %}
 
-  <p>Hello, {{ username }} from out html page</p>
+  <p>Hello, {{ user.username }} from out html page</p>
 
-  {% if logged_in %}
+  {% if user.is_authenticated %}
     <ul>
       {% for fruit in fruits %}
       <li>{{ fruit }}</li>

@@ -1,0 +1,14 @@
+{% extends "Home.html" %}
+
+{% block title %}Register your user!{% endblock %}
+
+{% block content %}
+
+  <h2>Create your user:</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Register</button>
+  </form>
+
+{% endblock %}
