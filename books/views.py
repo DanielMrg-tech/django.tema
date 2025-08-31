@@ -1,6 +1,6 @@
 import json
 
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from datetime import datetime
 from django.http import HttpResponse, HttpRequest
 from rest_framework.templatetags.rest_framework import form_for_link
@@ -10,7 +10,8 @@ from rest_framework import viewsets
 from books.serializers import BookSerializer
 from books.forms import BookForm
 from django.views.decorators.csrf import csrf_exempt
-fruits = ['apple', 'banana', 'durian', 'pear']
+from django.contrib.auth.decorators import login_required
+
 
 
 names = [
@@ -36,11 +37,15 @@ def hello(request):
 
 def home(request):
 
+    books = list(Book.objects.all())
+    books.sort(key = (lambda x: x.date_created), reverse=True)
+
+
     context = {
         'username': 'Alice',
         'logged_in': True,
         'current_time': datetime.now(),
-        'fruits': fruits,
+        'books': books
     }
 
     return render(request, 'Home.html', context)
@@ -64,7 +69,17 @@ class BookViewSet(viewsets.ModelViewSet):
 books_list = ["book 1", "Mockingbird", "Eminem: GReatest HITS", "Fahrenheit 471"]
 
 
+def books_by_user(request: HttpRequest, user_id: int):
+    books = list(Book.objects.filter(created_by= user_id))
+    books.sort(key = (lambda x: x.date_created), reverse=True)
+    context = {
+        'books': books
+    }
+    return render(request, 'books.html', context)
+
+
 @csrf_exempt
+@login_required
 def books_view_simple(request: HttpRequest):
     if request.method == "GET":
         books_list.sort()
@@ -90,7 +105,9 @@ def books_view(request: HttpRequest):
     elif request.method == "POST":
         form_with_data = BookForm(request.POST)
         if form_with_data.is_valid():
-            form_with_data.save()
-            return HttpResponse("Book Saved Succesfully!")
+            book_instance = form_with_data.save(commit=False)
+            book_instance.created_by = request.user
+            book_instance.save()
+            return redirect('books')
         else:
             return HttpResponse(form_with_data.errors)

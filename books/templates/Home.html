@@ -7,17 +7,12 @@
 
   <p>Hello, {{ user.username }} from out html page</p>
 
-  {% if user.is_authenticated %}
-    <ul>
-      {% for fruit in fruits %}
-      <li>{{ fruit }}</li>
 
-      {% endfor %}
-
-    </ul>
-
-  {% endif %}
-
+  <ul>
+    {% for book in books %}
+      <li>{{ book }}, added by: <a href="{% url 'books_by_user' user_id= book.created_by.id %}">{{ book.created_by }}</a></li>
+    {% endfor %}
+  </ul>
 
 <p>Today`s time is : {{ current_time }}</p>
 
